@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MovePlayer : MonoBehaviour
 {
@@ -74,7 +75,20 @@ public class MovePlayer : MonoBehaviour
 
     private void Jump()
     {
-        // Добавляем силу прыжка
+        //Высота прыжка
         rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
