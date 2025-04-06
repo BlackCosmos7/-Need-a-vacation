@@ -89,6 +89,6 @@ public class MovePlayer : MonoBehaviour
 
     private void Die()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("DeadScreen");
     }
 }
