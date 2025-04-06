@@ -57,10 +57,12 @@ public class PlatformNoSee : MonoBehaviour
             {
                 spriteRenderer.enabled = visible;
             }
+              
+
 
             if (collider != null)
             {
-                collider.enabled = true;
+                collider.enabled = visible;
             }
         }
     }
