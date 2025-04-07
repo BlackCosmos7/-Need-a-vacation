@@ -21,7 +21,6 @@ public class MovePlayer : MonoBehaviour
 
     void Start()
     {
-        // Получаем компоненты
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
     }
@@ -53,6 +52,7 @@ public class MovePlayer : MonoBehaviour
         {
             characterSprite.flipX = input.x < 0;
         }
+
         if (Input.GetKeyDown(KeyCode.Space) && !isJumping && !isFalling)
         {
             Jump();

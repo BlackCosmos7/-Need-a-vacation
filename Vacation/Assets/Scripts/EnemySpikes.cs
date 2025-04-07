@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class EnemySpikes : MonoBehaviour
 {
-    [SerializeField] private float upDistance = 1f; //длина выдвижения шипов
-    [SerializeField] private float upTime = 1f; // Столько шипы снаружи
-    [SerializeField] private float downTime = 2f; // Столько шипы внутри
-    [SerializeField] private float moveSpeed = 2f; //скорость
+    [SerializeField] private float moveDistance = 1f; // Дистанция движения шипов влево-вправ
+    [SerializeField] private float moveTime = 1f; // Время, сколько шипы будут двигаться в одну сторону
+    [SerializeField] private float idleTime = 2f; // Время, сколько шипы будут "стоять" на месте
+    [SerializeField] private float moveSpeed = 2f; // Скорость движения
 
     private Vector3 initialPosition;
-    private Vector3 upPosition;
+    private Vector3 targetPosition;
     private bool isDeadly = false;
 
     public bool IsDeadly => isDeadly;
@@ -17,7 +17,7 @@ public class EnemySpikes : MonoBehaviour
     private void Start()
     {
         initialPosition = transform.localPosition;
-        upPosition = initialPosition + Vector3.up * upDistance;
+        targetPosition = initialPosition + Vector3.right * moveDistance; // Двигаемся по оси X
         StartCoroutine(SpikeRoutine());
     }
 
@@ -25,15 +25,15 @@ public class EnemySpikes : MonoBehaviour
     {
         while (true)
         {
-            // Выдвигаем
-            yield return MoveSpike(upPosition);
+            // Двигаем шипы в сторону цели (вправо)
+            yield return MoveSpike(targetPosition);
             isDeadly = true;
-            yield return new WaitForSeconds(upTime);
+            yield return new WaitForSeconds(moveTime); // Время, сколько шипы остаются в этой позиции
 
-            // Прячем
+            // Двигаем шипы обратно (влево)
             yield return MoveSpike(initialPosition);
             isDeadly = false;
-            yield return new WaitForSeconds(downTime);
+            yield return new WaitForSeconds(idleTime); // Время, сколько шипы будут в исходной позиции
         }
     }
 
