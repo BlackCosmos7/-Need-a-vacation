@@ -3,29 +3,49 @@ using UnityEngine;
 
 public class PlatformNoSee : MonoBehaviour
 {
-    [Header("Исчезающие объекты")]
+    public enum PlatformMode { AppearOnPress, DisappearOnPress }
+    [Header("Режим работы платформы")]
+    [SerializeField] private PlatformMode mode = PlatformMode.AppearOnPress;
+
+    [Header("Платформы")]
     [SerializeField] private GameObject[] platforms;
 
-    [Header("Кулдаун")]
+    [Header("Время отображения / скрытия")]
     [SerializeField] private float visibilityDuration = 3f;
+
+    [Header("Кулдаун")]
     [SerializeField] private float cooldownDuration = 1f;
 
     private bool canPressE = true;
 
     private void Start()
     {
-        SetPlatformVisibility(false);
+        if (mode == PlatformMode.AppearOnPress)
+        {
+            SetPlatformVisibility(false);
+        }
+        else
+        {
+            SetPlatformVisibility(true);
+        }
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && canPressE)
         {
-            ShowPlatforms();
+            if (mode == PlatformMode.AppearOnPress)
+            {
+                ShowPlatformsTemporarily();
+            }
+            else
+            {
+                HidePlatformsTemporarily();
+            }
         }
     }
 
-    private void ShowPlatforms()
+    private void ShowPlatformsTemporarily()
     {
         SetPlatformVisibility(true);
         canPressE = false;
@@ -34,10 +54,25 @@ public class PlatformNoSee : MonoBehaviour
         StartCoroutine(CooldownForE());
     }
 
+    private void HidePlatformsTemporarily()
+    {
+        SetPlatformVisibility(false);
+        canPressE = false;
+        StopAllCoroutines();
+        StartCoroutine(ShowPlatformsAfterDelay());
+        StartCoroutine(CooldownForE());
+    }
+
     private IEnumerator HidePlatformsAfterDelay()
     {
         yield return new WaitForSeconds(visibilityDuration);
         SetPlatformVisibility(false);
+    }
+
+    private IEnumerator ShowPlatformsAfterDelay()
+    {
+        yield return new WaitForSeconds(visibilityDuration);
+        SetPlatformVisibility(true);
     }
 
     private IEnumerator CooldownForE()
@@ -54,16 +89,10 @@ public class PlatformNoSee : MonoBehaviour
             Collider2D collider = platform.GetComponent<Collider2D>();
 
             if (spriteRenderer != null)
-            {
                 spriteRenderer.enabled = visible;
-            }
-              
-
 
             if (collider != null)
-            {
                 collider.enabled = visible;
-            }
         }
     }
 }
