@@ -1,17 +1,17 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Collections;
 using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public int collectibleCount = 0;
-    public int requiredCollectibles = 15;//сколько надо набрать 
-    public TextMeshProUGUI collectibleCounterText;
+    public int requiredCollectibles = 15; // сколько нужно собрать
+    public TextMeshProUGUI collectibleCounterText; // текст для отображения количества собранных предметов
 
-    public GameObject comicPanel;//комикс типа
+    public GameObject[] panels; // Массив панелей
+    private int currentPanelIndex = 0; // Индекс текущей панели
+
+    public GameObject platformToHide; // Платформа, которую нужно скрыть
 
     private void Awake()
     {
@@ -32,25 +32,57 @@ public class GameManager : MonoBehaviour
             collectibleCounterText.text = collectibleCount.ToString() + "/" + requiredCollectibles.ToString();
         }
 
-        if (collectibleCount >= requiredCollectibles)
+        if (collectibleCount >= requiredCollectibles && currentPanelIndex == 0)
         {
-            StartCoroutine(ShowComicAndLoadLevel());
+            ShowPanel(); // Показываем первую панель после сбора всех предметов
         }
     }
 
     public void AddCollectible(int points)
     {
-        collectibleCount += points;
+        collectibleCount += points; // Увеличиваем количество собранных предметов
     }
 
-    private IEnumerator ShowComicAndLoadLevel()
+    // Показывает текущую панель
+    private void ShowPanel()
     {
-        if (comicPanel != null)
+        if (currentPanelIndex < panels.Length)
         {
-            comicPanel.SetActive(true);
+            panels[currentPanelIndex].SetActive(true); // Активируем текущую панель
+        }
+    }
+
+    // Переход к следующей панели
+    public void NextPanel()
+    {
+        // Скрываем текущую панель
+        if (currentPanelIndex < panels.Length)
+        {
+            panels[currentPanelIndex].SetActive(false);
         }
 
-        yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // Переходим к следующей панели
+        currentPanelIndex++;
+
+        // Если следующая панель существует, показываем её
+        if (currentPanelIndex < panels.Length)
+        {
+            panels[currentPanelIndex].SetActive(true);
+        }
+    }
+
+    // Закрывает текущую панель и скрывает платформу
+    public void ClosePanel()
+    {
+        if (currentPanelIndex < panels.Length)
+        {
+            panels[currentPanelIndex].SetActive(false);
+        }
+
+        // Скрыть платформу при закрытии панели
+        if (platformToHide != null)
+        {
+            platformToHide.SetActive(false); // Скрываем платформу
+        }
     }
 }
