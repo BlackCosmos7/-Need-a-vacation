@@ -83,12 +83,11 @@ public class MovePlayer : MonoBehaviour
     {
         if (collision.collider.CompareTag("Enemy"))
         {
-            Die();
+            SceneManager.LoadScene("DeadScreen");
         }
-    }
-
-    private void Die()
-    {
-        SceneManager.LoadScene("DeadScreen");
+        else if (collision.collider.CompareTag("Spik"))
+        {
+            SceneManager.LoadScene("Dead2");
+        }
     }
 }
