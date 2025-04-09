@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class EnemySpikes : MonoBehaviour
 {
-    [SerializeField] private float moveDistance = 1f; // Дистанция движения шипов влево-вправ
-    [SerializeField] private float moveTime = 1f; // Время, сколько шипы будут двигаться в одну сторону
-    [SerializeField] private float idleTime = 2f; // Время, сколько шипы будут "стоять" на месте
-    [SerializeField] private float moveSpeed = 2f; // Скорость движения
+    [SerializeField] private float moveDistance = 1f; // Дистанция
+    [SerializeField] private float moveTime = 1f; // Время двигаться
+    [SerializeField] private float idleTime = 2f; // Время на месте
+    [SerializeField] private float moveSpeed = 2f; // Скорость
 
     private Vector3 initialPosition;
     private Vector3 targetPosition;
@@ -17,7 +17,7 @@ public class EnemySpikes : MonoBehaviour
     private void Start()
     {
         initialPosition = transform.localPosition;
-        targetPosition = initialPosition + Vector3.right * moveDistance; // Двигаемся по оси X
+        targetPosition = initialPosition + Vector3.right * moveDistance;
         StartCoroutine(SpikeRoutine());
     }
 
@@ -25,15 +25,13 @@ public class EnemySpikes : MonoBehaviour
     {
         while (true)
         {
-            // Двигаем шипы в сторону цели (вправо)
             yield return MoveSpike(targetPosition);
             isDeadly = true;
-            yield return new WaitForSeconds(moveTime); // Время, сколько шипы остаются в этой позиции
+            yield return new WaitForSeconds(moveTime);
 
-            // Двигаем шипы обратно (влево)
             yield return MoveSpike(initialPosition);
             isDeadly = false;
-            yield return new WaitForSeconds(idleTime); // Время, сколько шипы будут в исходной позиции
+            yield return new WaitForSeconds(idleTime);
         }
     }
 

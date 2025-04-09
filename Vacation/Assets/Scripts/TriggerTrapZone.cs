@@ -1,0 +1,72 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class TriggerTrapZone : MonoBehaviour
+{
+    public float trapDelay = 3f;
+    public GameObject alertUI;
+    private bool trapTriggered = false;
+    private bool canKill = false;
+
+    private void Start()
+    {
+        if (alertUI != null)
+        {
+            alertUI.SetActive(false);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.collider.CompareTag("Player"))
+        {
+            if (!trapTriggered)
+            {
+                trapTriggered = true;
+                StartCoroutine(EnableTrap());
+            }
+
+            if (alertUI != null)
+            {
+                alertUI.SetActive(true);
+            }
+
+            if (canKill)
+            {
+                ExecuteDeath();
+            }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        if (other.collider.CompareTag("Player") && canKill)
+        {
+            ExecuteDeath();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.collider.CompareTag("Player"))
+        {
+            if (alertUI != null)
+            {
+                alertUI.SetActive(false);
+            }
+        }
+    }
+
+    private IEnumerator EnableTrap()
+    {
+        yield return new WaitForSeconds(trapDelay);
+        canKill = true;
+    }
+
+    private void ExecuteDeath()
+    {
+        SceneManager.LoadScene("Dead2");
+    }
+}

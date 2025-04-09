@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class DeadDDD : MonoBehaviour
 {
-    public void Retry()
+    public void RetryA()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("lvl2");
+        SceneManager.LoadScene("Game 1");
     }
 
-    public void GoToMenu()
+    public void GoToMenuA()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("Menu");
