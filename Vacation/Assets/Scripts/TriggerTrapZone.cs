@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +6,8 @@ public class TriggerTrapZone : MonoBehaviour
 {
     public float trapDelay = 3f;
     public GameObject alertUI;
-    private bool trapTriggered = false;
+
+    private Coroutine trapCoroutine;
     private bool canKill = false;
 
     private void Start()
@@ -22,10 +22,9 @@ public class TriggerTrapZone : MonoBehaviour
     {
         if (other.collider.CompareTag("Player"))
         {
-            if (!trapTriggered)
+            if (trapCoroutine == null)
             {
-                trapTriggered = true;
-                StartCoroutine(EnableTrap());
+                trapCoroutine = StartCoroutine(EnableTrap());
             }
 
             if (alertUI != null)
@@ -52,6 +51,13 @@ public class TriggerTrapZone : MonoBehaviour
     {
         if (other.collider.CompareTag("Player"))
         {
+            if (trapCoroutine != null)
+            {
+                StopCoroutine(trapCoroutine);
+                trapCoroutine = null;
+                canKill = false;
+            }
+
             if (alertUI != null)
             {
                 alertUI.SetActive(false);

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,8 +6,8 @@ public class DeadPlatform : MonoBehaviour
 {
     public float deathDelay = 3f;
     public GameObject warningPanel;
-    private bool isActivated = false;
     private bool isDeadly = false;
+    private Coroutine deathCoroutine;
 
     private void Start()
     {
@@ -22,10 +21,10 @@ public class DeadPlatform : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            if (!isActivated)
+            // Запускаем таймер
+            if (deathCoroutine == null)
             {
-                isActivated = true;
-                StartCoroutine(ActivateDeathZone());
+                deathCoroutine = StartCoroutine(ActivateDeathZone());
             }
 
             if (warningPanel != null)
@@ -52,6 +51,14 @@ public class DeadPlatform : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
+            // Отменяем таймер
+            if (deathCoroutine != null)
+            {
+                StopCoroutine(deathCoroutine);
+                deathCoroutine = null;
+                isDeadly = false;
+            }
+
             if (warningPanel != null)
             {
                 warningPanel.SetActive(false);
