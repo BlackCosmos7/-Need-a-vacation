@@ -51,7 +51,6 @@ public class DeadPlatform : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            // ־עלוםÿול עאילונ
             if (deathCoroutine != null)
             {
                 StopCoroutine(deathCoroutine);

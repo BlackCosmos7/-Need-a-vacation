@@ -9,15 +9,27 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/Video.unity
+    guid: 32b6631bb83158c42b871fd0df6ae06c
+  - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 143d70a7ced7a1b4883481198a7a4c76
   - enabled: 1
     path: Assets/Scenes/Game 1.unity
     guid: f307f26017c8af2419a24b05a1402c87
   - enabled: 1
+    path: Assets/Scenes/Game 2.unity
+    guid: dda99c00cf596f545b7fd90d744b8ed0
+  - enabled: 1
+    path: Assets/Scenes/GameLast.unity
+    guid: e2a0a1425c85488408594dde775e11e6
+  - enabled: 1
     path: Assets/Scenes/DeadScreen.unity
     guid: 065ee3b6b495bcf4aa6936e9d4193d23
   - enabled: 1
     path: Assets/Scenes/Dead2.unity
     guid: 883a4d3ef647c2f4e9bff362a283aeb5
+  - enabled: 1
+    path: Assets/Scenes/Dead3.unity
+    guid: ea7af56ed9767d645a712c94a5ce236d
   m_configObjects: {}

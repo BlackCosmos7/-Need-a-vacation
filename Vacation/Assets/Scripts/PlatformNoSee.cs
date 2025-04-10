@@ -10,7 +10,7 @@ public class PlatformNoSee : MonoBehaviour
     [Header("Платформы")]
     [SerializeField] private GameObject[] platforms;
 
-    [Header("Время отображения / скрытия")]
+    [Header("Время отображения/скрытия")]
     [SerializeField] private float visibilityDuration = 3f;
 
     [Header("Кулдаун")]

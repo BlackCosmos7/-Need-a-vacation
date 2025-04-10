@@ -5,13 +5,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public int collectibleCount = 0;
-    public int requiredCollectibles = 15; // сколько нужно собрать
-    public TextMeshProUGUI collectibleCounterText; // текст для отображения количества собранных предметов
+    public int requiredCollectibles = 15; // сколько нужно
+    public TextMeshProUGUI collectibleCounterText; // текст сбора
 
-    public GameObject[] panels; // Массив панелей
-    private int currentPanelIndex = 0; // Индекс текущей панели
+    public GameObject[] panels; // массив панелек
+    private int currentPanelIndex = 0;
 
-    public GameObject platformToHide; // Платформа, которую нужно скрыть
+    public GameObject platformToHide; // скрытая
 
     private void Awake()
     {
@@ -34,55 +34,47 @@ public class GameManager : MonoBehaviour
 
         if (collectibleCount >= requiredCollectibles && currentPanelIndex == 0)
         {
-            ShowPanel(); // Показываем первую панель после сбора всех предметов
+            ShowPanel();
         }
     }
 
     public void AddCollectible(int points)
     {
-        collectibleCount += points; // Увеличиваем количество собранных предметов
+        collectibleCount += points;
     }
 
-    // Показывает текущую панель
     private void ShowPanel()
     {
-        if (currentPanelIndex < panels.Length)
-        {
-            panels[currentPanelIndex].SetActive(true); // Активируем текущую панель
-        }
-    }
-
-    // Переход к следующей панели
-    public void NextPanel()
-    {
-        // Скрываем текущую панель
-        if (currentPanelIndex < panels.Length)
-        {
-            panels[currentPanelIndex].SetActive(false);
-        }
-
-        // Переходим к следующей панели
-        currentPanelIndex++;
-
-        // Если следующая панель существует, показываем её
         if (currentPanelIndex < panels.Length)
         {
             panels[currentPanelIndex].SetActive(true);
         }
     }
 
-    // Закрывает текущую панель и скрывает платформу
-    public void ClosePanel()
+    public void NextPanel()
     {
         if (currentPanelIndex < panels.Length)
         {
             panels[currentPanelIndex].SetActive(false);
         }
 
-        // Скрыть платформу при закрытии панели
+        currentPanelIndex++;
+
+        if (currentPanelIndex < panels.Length)
+        {
+            panels[currentPanelIndex].SetActive(true);
+        }
+    }
+
+    public void ClosePanel()
+    {
+        if (currentPanelIndex < panels.Length)
+        {
+            panels[currentPanelIndex].SetActive(false);
+        }
         if (platformToHide != null)
         {
-            platformToHide.SetActive(false); // Скрываем платформу
+            platformToHide.SetActive(false);
         }
     }
 }
